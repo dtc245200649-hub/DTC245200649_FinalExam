@@ -1,0 +1,39 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: product_management_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: product_management
+    volumes:
+      - ./database/product_management.sql:/docker-entrypoint-initdb.d/init.sql
+      - product_db_data:/var/lib/mysql
+    networks:
+      - product_net
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  web:
+    build: .
+    container_name: product_management_web
+    ports:
+      - "8085:8080"
+    environment:
+      DB_URL: "jdbc:mysql://db:3306/product_management?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Ho_Chi_Minh&characterEncoding=UTF-8"
+      DB_USERNAME: "root"
+      DB_PASSWORD: "root"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - product_net
+
+networks:
+  product_net:
+    driver: bridge
+
+volumes:
+  product_db_data:

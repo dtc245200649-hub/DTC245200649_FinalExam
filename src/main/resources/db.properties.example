@@ -1,0 +1,8 @@
+# =======================================================
+# FILE MẪU CẤU HÌNH KẾT NỐI DATABASE (EXAMPLE)
+# Sao chép file này thành db.properties và điền mật khẩu của bạn
+# =======================================================
+db.url=jdbc:mysql://localhost:3306/product_management?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Ho_Chi_Minh&characterEncoding=UTF-8
+db.username=root
+db.password=YOUR_PASSWORD_HERE
+db.driver=com.mysql.cj.jdbc.Driver
